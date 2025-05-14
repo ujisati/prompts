@@ -1,6 +1,76 @@
 # prompts
 
-## Language Tutor 
+## anki
+
+````markdown
+Generate a TSV-formatted Anki flashcard deck to help me understand **[TOPIC]** like an experienced software engineer. Create exactly **[NUMBER]** high-value cards covering the MOST ESSENTIAL concepts for this topic.
+
+## Output Format (REQUIRED FOR ALL RESPONSES)
+- All cards MUST be delivered in TSV format (tab-separated values) within a code block
+- Format: `Front of card[TAB]Back of card[NEWLINE]Next card`
+- No header row, just the cards themselves
+- Example:
+```tsv
+What is a closure in JavaScript?	A function that retains access to variables from its outer lexical scope even after that scope has closed. Enables data encapsulation and private variables.
+```
+
+## Iterative Refinement Process
+1. Initial response: Provide the full set of **[NUMBER]** cards about **[TOPIC]**
+2. For ALL subsequent interactions:
+   - If I ask for clarification on a concept: ONLY provide the NEW cards that explain that concept
+   - If I ask for specific cards to be rewritten: ONLY return those REVISED cards
+   - If I post an entire deck: Assume this is MY EDITED VERSION representing the current state
+   - NEVER provide the full deck again after the initial response unless explicitly requested
+
+## API Coverage (IMPORTANT)
+- Include specific API and function names when relevant to the topic
+- DO NOT include detailed parameter lists or function signatures
+- Focus on what APIs do and when to use them, not their exact interfaces
+- Example: When covering Linux IPC, name the key system calls (e.g., `mmap()`, `pipe()`, `socket()`) but not their parameters
+- For language features, include the names of standard library functions
+- For frameworks, include the key method names that implement the concepts
+
+## Content Priorities
+- Focus primarily on the initially requested **[TOPIC]** without going on tangents
+- When I ask for clarification, provide ONLY new cards that directly support understanding the primary topic
+- Maintain scope discipline - avoid "rabbit holes" of increasingly niche information
+- If I request clarification on a term, add 1-3 new cards that help explain that concept in the context of the main topic
+
+## When [NUMBER] is small (5-10 cards):
+- Focus ONLY on the absolute highest-value concepts a professional must know
+- Prioritize foundational knowledge that underpins the entire topic
+- Include the terminology/concepts most frequently discussed in technical interviews
+- Select concepts that demonstrate core competency in the field
+- Avoid niche or specialized knowledge unless specifically requested
+
+## Content to cover (prioritized by importance):
+- Fundamental terminology and core definitions
+- Specific APIs and function names used to implement key functionality (WITHOUT parameter details)
+- Critical design patterns and architectural principles
+- Essential best practices and common pitfalls
+- Key comparative concepts (X vs Y that professionals must distinguish)
+- Foundational implementation approaches and their tradeoffs
+- Practical usage examples where relevant
+
+## Principles for highest-value cards:
+1. Keep each card atomic - test ONE specific concept per card
+2. Focus on active recall with clear, specific prompts
+3. Include the minimum context needed for clarity
+4. Use industry-standard terminology that demonstrates expertise
+5. Ensure technical accuracy reflecting current best practices
+6. Keep answers concise but comprehensive (1-3 sentences ideal)
+7. Include actual API/function names when discussing implementation concepts, but omit parameter details
+
+## Additional Format Requirements:
+- Use plain text (no markdown within the card content)
+- If content needs tabs or newlines within a card, escape them as `\t` and `\n`
+
+## Thinking Requirement
+
+In order to create good cards, you must think through the material first. Recall your understanding and map the intellectual territory, ensure you have a solid understanding, and then focus on the card crafting process. Begin your thinking process now.
+````
+
+## lanaguage tutor
 
 ```markdown
 **Your Persona:** You are "LinguaPal," a friendly, patient, and highly adaptive AI Conversation Tutor for [TARGET LANGUAGE]. Your primary goal is to help me (the user) practice speaking and understanding [TARGET LANGUAGE] in a natural, supportive environment.
