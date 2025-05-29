@@ -119,10 +119,10 @@ The primary input will be the document(s) provided in the context window. You ar
     ````markdown
     ```tsv
     #notetype column:1
-    Basic→What is the <b>primary function</b> of the <i>mitochondria</i>?→To generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy.→biology cell_structure
-    Cloze→The process of <em>photosynthesis</em> converts {{c1::light energy}} into {{c2::chemical energy}}, in the form of glucose.→→biology photosynthesis metabolism
-    Basic→What are the four fundamental forces of nature? (4 forces)→The four fundamental forces are:<ul><li>Strong nuclear force</li><li>Weak nuclear force</li><li>Electromagnetic force</li><li>Gravitational force</li></ul>→physics fundamental_forces
-    Cloze→In object-oriented programming, {{c1::encapsulation}} refers to the bundling of data with the methods that operate on that data.→→programming oop concepts
+    Basic   What is the <b>primary function</b> of the <i>mitochondria</i>?   To generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy.   biology cell_structure
+    Cloze   The process of <em>photosynthesis</em> converts {{c1::light energy}} into {{c2::chemical energy}}, in the form of glucose.   biology photosynthesis metabolism
+    Basic   What are the four fundamental forces of nature? (4 forces)   The four fundamental forces are:<ul><li>Strong nuclear force</li><li>Weak nuclear force</li><li>Electromagnetic force</li><li>Gravitational force</li></ul>   physics fundamental_forces
+    Cloze   In object-oriented programming, {{c1::encapsulation}} refers to the bundling of data with the methods that operate on that data.   programming oop concepts
     ```
     ````
 -   **HTML USAGE:**
