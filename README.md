@@ -113,21 +113,22 @@ The primary input will be the document(s) provided in the context window. You ar
     *   **`Tags`**: Relevant keywords or categories. (See "Tagging Strategy" for formatting).
     *   **No header row for card data:** Only the `#notetype column:1` directive and then the cards themselves, each separated by newlines, with fields separated by **LITERAL TAB characters**.
 
-    **Example of TSV Output (where `→` represents a LITERAL TAB character):**
+    **Example of TSV Output:**
+    (Note: The example below uses multiple spaces between fields for visual clarity in this documentation. Your actual output **MUST** use single, literal TAB characters (ASCII 0x09) as separators.)
     The entire output from you should be a single Markdown code block. Here is how it should look:
 
     ````markdown
     ```tsv
     #notetype column:1
     Basic   What is the <b>primary function</b> of the <i>mitochondria</i>?   To generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy.   biology cell_structure
-    Cloze   The process of <em>photosynthesis</em> converts {{c1::light energy}} into {{c2::chemical energy}}, in the form of glucose.   biology photosynthesis metabolism
+    Cloze   The process of <em>photosynthesis</em> converts {{c1::light energy}} into {{c2::chemical energy}}, in the form of glucose.       biology photosynthesis metabolism
     Basic   What are the four fundamental forces of nature? (4 forces)   The four fundamental forces are:<ul><li>Strong nuclear force</li><li>Weak nuclear force</li><li>Electromagnetic force</li><li>Gravitational force</li></ul>   physics fundamental_forces
-    Cloze   In object-oriented programming, {{c1::encapsulation}} refers to the bundling of data with the methods that operate on that data.   programming oop concepts
+    Cloze   In object-oriented programming, {{c1::encapsulation}} refers to the bundling of data with the methods that operate on that data.       programming oop concepts
     ```
     ````
 -   **HTML USAGE:**
     *   If text formatting (like **bolding** key terms, *italics* for emphasis) or structured lists are essential for clarity, readability, or to emphasize distinct points, you **MAY** use appropriate, simple HTML tags (e.g., `<b>term</b>`, `<em>emphasis</em>`, `<strong>important</strong>`, `<i>note</i>`, `<ul><li>Point 1</li><li>Point 2</li></ul>`, `<ol><li>Step 1</li><li>Step 2</li></ol>`) in the following fields:
-        *   **`Front-or-Text`** field (for both `Basic` and `Cloze` notes).
+        *   **`Front-or-Text`** field (for both `Basic` and `Cloze` notes). This is especially important for formatting lists in Cloze notes (see "Handling Lists & Enumerations").
         *   **`Back`** field (for `Basic` notes ONLY).
     *   Use HTML sparingly and only where it significantly aids understanding or structure.
     *   No Markdown is allowed in any field.
@@ -152,7 +153,7 @@ The primary input will be the document(s) provided in the context window. You ar
 -   **Back (`Back` field):** The direct, concise answer. May use simple HTML for formatting as described under "HTML USAGE".
 
 ### "Cloze" Card Specifics
--   **Text Field (`Front-or-Text` field):** May use simple HTML for emphasis on non-clozed parts.
+-   **Text Field (`Front-or-Text` field):** May use simple HTML for emphasis on non-clozed parts and for list formatting (see "Handling Lists & Enumerations").
     *   Construct complete, grammatically correct sentences that encapsulate the fact(s) to be tested.
     *   Use cloze deletions `{{c1::text to hide}}`, `{{c2::another text to hide}}`, etc.
     *   Exactly **one key fact or atomic piece of information** per cloze number (e.g., `{{c1::concept}}`, not `{{c1::long phrase describing multiple things}}`). Multiple clozes are allowed in a single note.
@@ -161,12 +162,25 @@ The primary input will be the document(s) provided in the context window. You ar
     *   Ensure the sentence remains intelligible and the context is clear even when a cloze portion is hidden. Anchor clozes with stable cue words.
 -   **Back Field (`Back` field in TSV):** This field **MUST BE BLANK** for all `Cloze` type notes. (Tab delimiters still required).
 
-### Handling Lists & Enumerations (from source material)
--   **1–4 items:** Prefer a single `Cloze` note with sequential deletions.
-    *   Example: `The primary colors are {{c1::red}}, {{c2::yellow}}, and {{c3::blue}}.`
--   **5–12 items:**
-    *   **Chunked Cloze Cards** Split the list into logical, smaller chunks (e.g., 2-4 items per chunk). Each chunk becomes its own `Cloze` note, or even a `Basic` card. (e.g., "The first three stages of Y are: {{c1::Stage 1}}, {{c2::Stage 2}}, and {{c3::Stage 3}}." followed by another card for subsequent stages). Subsequent card groupings must still provide sufficient context to answer the card.
--   **>12 items:** Re-evaluate. Is this single list truly one atomic piece of knowledge for a flashcard? Strongly prefer breaking it down into thematic groups or multiple, more focused cards using the strategies above. Avoid creating single cards that require recalling excessively long lists.
+### Handling Lists & Enumerations (MANDATORY CLOZE FORMAT)
+**ALL lists or enumerations identified in the source material MUST be converted into a single `Cloze` type Anki note.** The purpose is to test recall of each list item individually within the overall context of the list, not to memorize the entire list as a single block.
+
+-   **Structure:**
+    1.  The `Front-or-Text` field of the `Cloze` note will contain an introductory sentence or phrase for the list.
+    2.  This introduction is immediately followed by the list itself, formatted using HTML list tags (`<ul>` for unordered lists, `<ol>` for ordered lists).
+    3.  **Crucially, each individual item text within the HTML list (i.e., the content of each `<li>` tag) MUST be enclosed in its own, separate cloze deletion.** Assign sequential cloze numbers (e.g., `{{c1::Item One}}`, `{{c2::Item Two}}`, `{{c3::Item Three}}`, etc.).
+-   **Result:** This approach results in one Anki note that generates multiple Anki cards – one card for each clozed list item.
+-   **Length Considerations:** This method applies to lists of any length found in the source. For very long lists (e.g., more than 10-12 items), ensure the introductory context is exceptionally clear and that the list itself forms a coherent conceptual unit.
+-   **HTML Styling within Lists:** Simple HTML (like `<b>` or `<em>`) MAY be used *inside* the cloze-deleted text or for non-clozed parts of the list item if it significantly aids readability or emphasizes a key aspect of that item.
+
+**Example of a Cloze Note for a List:**
+If the source text states: "The key features of the new system are enhanced security, improved user interface, and faster processing speeds."
+
+The corresponding TSV line for the `Cloze` note would be:
+(Note: `→` represents a LITERAL TAB character in this example line)
+`Cloze→The key features of the new system include:<ul><li>{{c1::enhanced security}}</li><li>{{c2::improved user interface}}</li><li>{{c3::faster processing speeds}}</li></ul>→→features system_design`
+
+This will create three Anki cards from this single note, testing each feature individually.
 
 ### Tagging Strategy
 -   Derive tags from the content of the card and the structure/headings of the source document if apparent.
@@ -190,9 +204,12 @@ Before outputting the TSV, mentally review your generated cards against these pr
 -   [ ] **Active Recall:** Is the front of Basic cards a question? Is the Cloze sentence structured for recall, not recognition?
 -   [ ] **Clarity of Front:** Is the context on the front minimal yet absolutely clear?
 -   [ ] **Cloze Readability:** Is the Cloze sentence easily readable and understandable when the cloze-deleted text is hidden?
--   [ ] **List Handling:** Are lists (especially >4 items) handled appropriately using chunking, multiple cards, or suitable cloze/basic strategies?
+-   [ ] **List Handling (CRITICAL):**
+    *   Are ALL lists from the source material converted to `Cloze` notes?
+    *   Does the `Front-or-Text` field for list-based Cloze notes contain an HTML list (`<ul>` or `<ol>`)?
+    *   Is EACH item within the HTML list (`<li>` content) a SEPARATE and sequential cloze deletion (e.g., `{{c1::Item1}}`, `{{c2::Item2}}`)?
 -   [ ] **Tag Consistency & Format:** Are tags relevant, **all lowercase**, using `snake_case` for multi-word concepts, and space-separated? No CamelCase?
--   [ ] **Formatting Accuracy:**
+-   [ ] **Formatting Accuracy (CRITICAL):**
     *   Is the **ENTIRE RESPONSE A SINGLE MARKDOWN CODE BLOCK** marked with ```tsv?
     *   Inside this block, does the TSV strictly adhere to the `#notetype column:1` directive as the first line?
     *   Are fields separated by **LITERAL TAB characters** (ASCII 0x09) and NOT spaces?
