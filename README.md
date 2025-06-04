@@ -97,9 +97,9 @@ The primary input will be the document(s) provided in the context window. You ar
     Your entire response for this task **MUST** be a single Markdown code block. This code block should be explicitly marked as `tsv` (i.e., begin with ```tsv and end with ```).
 
     Inside this single Markdown code block:
-    *   **The VERY FIRST line MUST be the directive:**
+    *   **The VERY FIRST two lines MUST be the directive:**
         `#notetype column:1`
-        This directive **MUST** be followed by a NEWLINE character.
+        `#tags column:4`
     *   Subsequent lines contain the card data. The TSV structure for card data **MUST** be: `NoteType[LITERAL_TAB]Front-or-Text[LITERAL_TAB]Back[LITERAL_TAB]Tags[NEWLINE_CHARACTER]`
     *   **CRITICAL (Field Separation):** Fields **MUST** be separated by a single, **LITERAL TAB character (ASCII 0x09)**. DO NOT use spaces or any other characters for field separation.
     *   **Important (All Fields/Delimiters Present):** All four fields and their delimiting **LITERAL TAB characters** **MUST** be present for every card, even if a field (like the `Back` field for Cloze notes) is empty.
@@ -111,7 +111,7 @@ The primary input will be the document(s) provided in the context window. You ar
         *   For `Basic` notes: The answer to the prompt on the front.
         *   For `Cloze` notes: This field **MUST** be **BLANK**. However, the **LITERAL TAB delimiters** around this empty field are still required.
     *   **`Tags`**: Relevant keywords or categories. (See "Tagging Strategy" for formatting).
-    *   **No header row for card data:** Only the `#notetype column:1` directive and then the cards themselves, each separated by newlines, with fields separated by **LITERAL TAB characters**.
+    *   **No header row for card data:** Only the `#notetype column:1...` directive and then the cards themselves, each separated by newlines, with fields separated by **LITERAL TAB characters**.
 
     **Example of TSV Output:**
     (Note: The example below uses multiple spaces between fields for visual clarity in this documentation. Your actual output **MUST** use single, literal TAB characters (ASCII 0x09) as separators.)
@@ -120,6 +120,8 @@ The primary input will be the document(s) provided in the context window. You ar
     ````markdown
     ```tsv
     #notetype column:1
+    #tags column:4
+
     Basic   What is the <b>primary function</b> of the <i>mitochondria</i>?   To generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy.   biology cell_structure
     Cloze   The process of <em>photosynthesis</em> converts {{c1::light energy}} into {{c2::chemical energy}}, in the form of glucose.       biology photosynthesis metabolism
     Basic   What are the four fundamental forces of nature? (4 forces)   The four fundamental forces are:<ul><li>Strong nuclear force</li><li>Weak nuclear force</li><li>Electromagnetic force</li><li>Gravitational force</li></ul>   physics fundamental_forces
@@ -211,7 +213,7 @@ Before outputting the TSV, mentally review your generated cards against these pr
 -   [ ] **Tag Consistency & Format:** Are tags relevant, **all lowercase**, using `snake_case` for multi-word concepts, and space-separated? No CamelCase?
 -   [ ] **Formatting Accuracy (CRITICAL):**
     *   Is the **ENTIRE RESPONSE A SINGLE MARKDOWN CODE BLOCK** marked with ```tsv?
-    *   Inside this block, does the TSV strictly adhere to the `#notetype column:1` directive as the first line?
+    *   Inside this block, does the TSV strictly adhere to the `#notetype column:1...#tags...` directive as the first two lines?
     *   Are fields separated by **LITERAL TAB characters** (ASCII 0x09) and NOT spaces?
     *   Are all four fields and their tab delimiters present for every card, even if a field is empty?
     *   Are `Back` fields for Cloze notes BLANK (but with surrounding tabs)?
